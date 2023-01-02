@@ -1,52 +1,54 @@
-# Minecraft server optimization guide
+# Guía de optimización de servidores de Minecraft
 
-Note for users that are on vanilla, Fabric or Spigot (or anything below Paper) - go to your server.properties and change `sync-chunk-writes` to `false`. This option is forcibly set to false on Paper and its forks, but on other server implementations you need to switch this to false manually. This allows the server to save chunks off the main thread, lessening the load on the main tick loop.
+Nota para los usuarios que están en vanilla, Fabric o Spigot (o cualquier cosa por debajo de Paper) - vaya a su server.properties y cambie `sync-chunk-writes` a `false`. Esta opción está forzosamente en false en Paper y sus forks, pero en otras implementaciones de servidor necesitas cambiarla a false manualmente. Esto permite al servidor guardar trozos fuera del hilo principal, disminuyendo la carga en el bucle principal.
 
-Guide for version 1.19. Some things may still apply to 1.15 - 1.18.
+Guía para la versión 1.19. Algunas cosas todavía se pueden aplicar a 1.15 - 1.18.
 
-Based on [this guide](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) and other sources (all of them are linked throughout the guide when relevant).
+(Traducción de https://github.com/YouHaveTrouble/minecraft-optimization)
 
-Use the table of contents located above (next to `README.md`) to easily navigate throughout this guide.
+Basado en [esta guía](https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/) and other sources (all of them are linked throughout the guide when relevant).
+
+Utilice la tabla de contenidos situada más arriba (junto a `README.md`) para navegar fácilmente por esta guía.
 
 # Intro
-There will never be a guide that will give you perfect results. Each server has their own needs and limits on how much you can or are willing to sacrifice. Tinkering around with the options to fine tune them to your servers needs is what it's all about. This guide only aims to help you understand what options have impact on performance and what exactly they change. If you think you found inaccurate information within this guide, you're free to open an issue or set up a pull request to correct it.
+Nunca habrá una guía que te dé resultados perfectos. Cada servidor tiene sus propias necesidades y límites sobre cuánto puedes o estás dispuesto a sacrificar. Juguetear con las opciones para ajustarlas a las necesidades de tu servidor es de lo que se trata. Esta guía sólo pretende ayudarte a entender qué opciones tienen impacto en el rendimiento y qué cambian exactamente. Si crees que has encontrado información incorrecta en esta guía, eres libre de abrir una incidencia o hacer un pull request para corregirla.
 
-# Preparations
+# Preparativos
 
 ## Server JAR
-Your choice of server software can make a huge difference in performance and API possibilities. There are currently multiple viable popular server JARs, but there are also a few that you should stay away from for various reasons.
+La elección del software de servidor puede marcar una gran diferencia en el rendimiento y las posibilidades de la API. Actualmente existen múltiples JARs de servidor populares y viables, pero también hay algunos de los que deberías alejarte por varias razones.
 
-Recommended top picks:
-* [Paper](https://github.com/PaperMC/Paper) - The most popular server software that aims to improve performance while fixing gameplay and mechanics inconsistencies.
-* [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) - Paper fork that aims to further improve server performance.
-* [Purpur](https://github.com/PurpurMC/Purpur) - Pufferfish fork focused on features and the freedom of customization.
+Las mejores opciones recomendadas:
+* [Paper](https://github.com/PaperMC/Paper) - El software de servidor más popular que pretende mejorar el rendimiento al tiempo que corrige las incoherencias mecánicas y de juego.
+* [Pufferfish](https://github.com/pufferfish-gg/Pufferfish) - Fork de paper que pretende mejorar aún más el rendimiento de los servidores.
+* [Purpur](https://github.com/PurpurMC/Purpur) - Fork de Pufferfish que se centra en las prestaciones y la libertad de personalización.
 
-You should stay away from:
-* Any paid server JAR that claims async anything - 99.99% chance of being a scam.
-* Bukkit/CraftBukkit/Spigot - Extremely outdated in terms of performance compared to other server software you have access to.
-* Any plugin/software that enables/disables/reloads plugins on runtime. See [this section](#plugins-enablingdisabling-other-plugins) to understand why.
-* Many forks further downstream from Pufferfish or Purpur will encounter instability and other issues. If you're seeking more performance gains, optimize your server or invest in a personal private fork.
+Usted debe mantenerse alejado de:
+* Cualquier JAR de servidor de pago que afirme async cualquier cosa - 99,99% de posibilidades de ser una estafa.
+* Bukkit/CraftBukkit/Spigot - Extremadamente anticuado en términos de rendimiento comparado con otro software de servidor al que tenga acceso.
+* Cualquier plugin/software que habilite/deshabilite/recargue plugins en tiempo de ejecución. Vea [esta sección](#plugins-enablingdisabling-other-plugins) para entender por qué.
+* Muchos forks posteriores a Pufferfish o Purpur encontrarán inestabilidad y otros problemas. Si busca más ganancias de rendimiento, optimice su servidor o invierta en un fork privado personal.
 
-## Map pregen
-Map pregeneration, thanks to various optimizations to chunk generation added over the years is now only useful on servers with terrible, single threaded, or limited CPUs. Though, pregeneration is commonly used to generate chunks for world-map plugins such as Pl3xMap or Dynmap.
+## Pregenerar el mapa
+La pregeneración de mapas, gracias a varias optimizaciones a la generación de trozos añadidas a lo largo de los años, ahora sólo es útil en servidores con CPUs terribles, de un solo hilo o limitadas. Aunque, la pregeneración es comúnmente usada para generar chunks para plugins de mapas del mundo como Pl3xMap o Dynmap.
 
-If you still want to pregen the world, you can use a plugin such as [Chunky](https://github.com/pop4959/Chunky) to do it. Make sure to set up a world border so your players don't generate new chunks! Note that pregenning can sometimes take hours depending on the radius you set in the pregen plugin. Keep in mind that with Paper and above your tps will not be affected by chunk loading, but the speed of loading chunks can significantly slow down when your server's cpu is overloaded.
+Si todavía quieres pregenerar el mundo, puedes usar un plugin como [Chunky](https://github.com/pop4959/Chunky) para hacerlo. Asegúrate de establecer un borde del mundo para que tus jugadores no generen nuevos trozos. Ten en cuenta que la pregeneración puede tardar horas dependiendo del radio que establezcas en el plugin de pregeneración. Ten en cuenta que con Paper y superiores tus tps no se verán afectados por la carga de chunks, pero la velocidad de carga de chunks puede ralentizarse significativamente cuando la cpu de tu servidor está sobrecargada.
 
-It's key to remember that the overworld, nether and the end have separate world borders that need to be set up for each world. The nether dimension is 8x smaller than the overworld (if not modified with a datapack), so if you set the size wrong your players might end up outside of the world border!
+Es importante recordar que el overworld, el nether y el end tienen fronteras separadas que necesitan ser configuradas para cada mundo. La dimensión del nether es 8 veces más pequeña que la del overworld (si no se modifica con un datapack), así que si configuras mal el tamaño, tus jugadores pueden acabar fuera de la frontera del mundo.
 
-**Make sure to set up a vanilla world border (`/worldborder set [diameter]`), as it limits certain functionalities such as lookup range for treasure maps that can cause lag spikes.**
+**Asegúrate de configurar un borde de mundo vainilla (`/worldborder set [diameter]`), ya que limita ciertas funcionalidades como el rango de búsqueda de mapas del tesoro que pueden causar picos de lag.**
 
-# Configurations
+# Configuraciones
 
-## Networking
+## Red
 
 ### [server.properties]
 
 #### network-compression-threshold
 
-`Good starting value: 256`
+`Buen valor inicial: 256`
 
-This allows you to set the cap for the size of a packet before the server attempts to compress it. Setting it higher can save some CPU resources at the cost of bandwidth, and setting it to -1 disables it. Setting this higher may also hurt clients with slower network connections. If your server is in a network with a proxy or on the same machine (with less than 2 ms ping), disabling this (-1) will be beneficial, since internal network speeds can usually handle the additional uncompressed traffic.
+Permite establecer el límite del tamaño de un paquete antes de que el servidor intente comprimirlo. Establecerlo más alto puede ahorrar algunos recursos de CPU a costa de ancho de banda, y establecerlo a -1 lo desactiva. Establecerlo más alto también puede perjudicar a los clientes con conexiones de red más lentas. Si su servidor está en una red con un proxy o en la misma máquina (con menos de 2 ms de ping), desactivar esto (-1) será beneficioso, ya que las velocidades de la red interna normalmente pueden manejar el tráfico adicional sin comprimir.
 
 ### [purpur.yml]
 
