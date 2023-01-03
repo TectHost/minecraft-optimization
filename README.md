@@ -56,9 +56,9 @@ Permite establecer el límite del tamaño de un paquete antes de que el servidor
 
 `Good starting value: true`
 
-You can enable Purpur's alternate keepalive system so players with bad connection don't get timed out as often. Has known incompatibility with TCPShield.
+Puedes habilitar el sistema de keepalive alternativo de Purpur para que los jugadores con mala conexión no se desconecten tan a menudo. Tiene incompatibilidad conocida con TCPShield.
 
-> Enabling this sends a keepalive packet once per second to a player, and only kicks for timeout if none of them were responded to in 30 seconds. Responding to any of them in any order will keep the player connected. AKA, it won't kick your players because 1 packet gets dropped somewhere along the lines  
+> Habilitando esta opción se envía un paquete keepalive una vez por segundo a un jugador, y sólo se desconecta si no se responde a ninguno de ellos en 30 segundos. Respondiendo a cualquiera de ellos en cualquier orden mantendrá al jugador conectado. Es decir, no expulsará a tus jugadores porque un paquete se haya caído en algún momento.  
 ~ https://purpurmc.org/docs/Configuration/#use-alternate-keepalive
 
 ---
@@ -69,50 +69,50 @@ You can enable Purpur's alternate keepalive system so players with bad connectio
 
 #### simulation-distance
 
-`Good starting value: 4`
+`Buen valor inicial: 4`
 
-Simulation distance is distance in chunks around the player that the server will tick. Essentially the distance from the player that things will happen. This includes furnaces smelting, crops and saplings growing, etc. This is an option you want to purposefully set low, somewhere around `3` or `4`, because of the existence of `view-distance`. This allows to load more chunks without ticking them. This effectively allows players to see further without the same performance impact.
+La distancia de simulación es la distancia en trozos alrededor del jugador que el servidor marcará. Esencialmente es la distancia desde el jugador a la que sucederán las cosas. Esto incluye hornos de fundición, cultivos y árboles jóvenes creciendo, etc. Esta es una opción que querrás poner baja a propósito, en algún lugar alrededor de `3` o `4`, debido a la existencia de `view-distance`. Esto permite cargar más trozos sin marcarlos. Esto permite a los jugadores ver más lejos sin el mismo impacto en el rendimiento.
 
 #### view-distance
 
-`Good starting value: 7`
+`Buen valor inicial: 7`
 
-This is the distance in chunks that will be sent to players, similar to no-tick-view-distance from paper.
+Esta es la distancia en trozos que se enviará a los jugadores, similar a la distancia de vista sin pulsar del papel.
 
-The total view distance will be equal to the greatest value between `simulation-distance` and `view-distance`. For example, if the simulation distance is set to 4, and the view distance is 12, the total distance sent to the client will be 12 chunks.
+La distancia total de la vista será igual al mayor valor entre `distancia-simulación` y `distancia-vista`. Por ejemplo, si la distancia de simulación es 4, y la distancia de vista es 12, la distancia total enviada al cliente será de 12 trozos.
 
 ### [spigot.yml]
 
 #### view-distance
 
-`Good starting value: default`
+`Buen valor inicial: default`
 
-This value overwrites server.properties one if not set to `default`. You should keep it default to have both simulation and view distance in one place for easier management.
+Este valor sobrescribe server.properties uno si no se establece en `default`. Usted debe mantener por defecto para tener tanto la simulación y la distancia de vista en un solo lugar para facilitar la gestión.
 
 ### [paper-world configuration]
 
 #### delay-chunk-unloads-by
 
-`Good starting value: 10s`
+`Buen valor inicial: 10s`
 
-This option allows you to configure how long chunks will stay loaded after a player leaves. This helps to not constantly load and unload the same chunks when a player moves back and forth. Too high values can result in way too many chunks being loaded at once. In areas that are frequently teleported to and loaded, consider keeping the area permanently loaded. This will be lighter for your server than constantly loading and unloading chunks.
+Esta opción le permite configurar cuánto tiempo permanecerán cargados los chunks después de que un jugador se vaya. Esto ayuda a no cargar y descargar constantemente los mismos trozos cuando un jugador va y viene. Valores demasiado altos pueden resultar en que se carguen demasiados chunks a la vez. En áreas que son frecuentemente teletransportadas y cargadas, considera mantener el área permanentemente cargada. Esto será más ligero para tu servidor que cargar y descargar trozos constantemente.
 
 #### max-auto-save-chunks-per-tick
 
-`Good starting value: 8`
+`Buen valor inicial: 8`
 
-Lets you slow down incremental world saving by spreading the task over time even more for better average performance. You might want to set this higher than `8` with more than 20-30 players. If incremental save can't finish in time then bukkit will automatically save leftover chunks at once and begin the process again.
+Le permite ralentizar el ahorro incremental de mundo repartiendo la tarea en el tiempo aún más para un mejor rendimiento medio. Es posible que desee establecer este más alto que `8` con más de 20-30 jugadores. Si el guardado incremental no puede terminar a tiempo, bukkit guardará automáticamente los trozos sobrantes de una vez y comenzará el proceso de nuevo.
 
 #### prevent-moving-into-unloaded-chunks
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-When enabled, prevents players from moving into unloaded chunks and causing sync loads that bog down the main thread causing lag. The probability of a player stumbling into an unloaded chunk is higher the lower your view-distance is.
+Cuando está activada, evita que los jugadores se muevan hacia trozos no cargados y causen cargas de sincronización que atascan el hilo principal causando lag. La probabilidad de que un jugador tropiece con un trozo descargado es mayor cuanto menor sea la distancia de visión.
 
 #### entity-per-chunk-save-limit
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
     area_effect_cloud: 8
     arrow: 16
@@ -134,15 +134,15 @@ Good starting values:
     wither_skull: 4
 ```
 
-With the help of this entry you can set limits to how many entities of specified type can be saved. You should provide a limit for each projectile at least to avoid issues with massive amounts of projectiles being saved and your server crashing on loading that. You can put any entity id here, see the minecraft wiki to find IDs of entities. Please adjust the limit to your liking. Suggested value for all projectiles is around `10`. You can also add other entities by their type names to that list. This config option is not designed to prevent players from making large mob farms.
+Con la ayuda de esta entrada puedes establecer límites a cuantas entidades de un tipo específico pueden ser guardadas. Usted debe proporcionar un límite para cada proyectil por lo menos para evitar problemas con cantidades masivas de proyectiles que se guardan y el servidor se bloquea en la carga que. Puedes poner cualquier id de entidad aquí, mira la wiki de minecraft para encontrar IDs de entidades. Por favor, ajuste el límite a su gusto. Valor sugerido para todos los proyectiles es de alrededor de `10`. También puede agregar otras entidades por sus nombres de tipo a esa lista. Esta opción de configuración no está diseñada para evitar que los jugadores hagan grandes granjas de mobs.
 
 ### [pufferfish.yml]
 
 #### max-loads-per-projectile
 
-`Good starting value: 8`
+`Buen valor inicial: 8`
 
-Specifies the maximum amount of chunks a projectile can load in its lifetime. Decreasing will reduce chunk loads caused by entity projectiles, but could cause issues with tridents, enderpearls, etc.
+Especifica la cantidad máxima de trozos que un proyectil puede cargar durante su vida. Si se reduce, se reducirán las cargas de trozos causadas por proyectiles de entidad, pero podrían producirse problemas con tridentes, enderpearls, etc.
 
 ---
 
@@ -153,7 +153,7 @@ Specifies the maximum amount of chunks a projectile can load in its lifetime. De
 #### spawn-limits
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
     monsters: 20
     animals: 5
@@ -164,12 +164,12 @@ Good starting values:
     ambient: 1
 ```
 
-The math of limiting mobs is `[playercount] * [limit]`, where "playercount" is current amount of players on the server. Logically, the smaller the numbers are, the less mobs you're gonna see. `per-player-mob-spawn` applies an additional limit to this, ensuring mobs are equally distributed between players. Reducing this is a double-edged sword; yes, your server has less work to do, but in some gamemodes natural-spawning mobs are a big part of a gameplay. You can go as low as 20 or less if you adjust `mob-spawn-range` properly. Setting `mob-spawn-range` lower will make it feel as if there are more mobs around each player. If you are using Paper, you can set mob limits per world in [paper-world configuration].
+La matemática de limitar mobs es `[playercount] * [limit]`, donde "playercount" es la cantidad actual de jugadores en el servidor. Lógicamente, cuanto menor sea el número, menos mobs verás. `per-player-mob-spawn` aplica un límite adicional a esto, asegurando que los mobs se distribuyen equitativamente entre los jugadores. Reducir esto es un arma de doble filo; sí, tu servidor tiene menos trabajo que hacer, pero en algunos modos de juego los mobs de desove natural son una gran parte de la jugabilidad. Puedes llegar a 20 o menos si ajustas `mob-spawn-range` adecuadamente. Si ajustas `mob-spawn-range` más bajo parecerá que hay más mobs alrededor de cada jugador. Si estás usando Paper, puedes establecer los límites de mobs por mundo en [paper-world configuration].
 
 #### ticks-per
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
     monster-spawns: 10
     animal-spawns: 400
@@ -180,20 +180,20 @@ Good starting values:
     ambient-spawns: 400
 ```
 
-This option sets how often (in ticks) the server attempts to spawn certain living entities. Water/ambient mobs do not need to spawn each tick as they don't usually get killed that quickly. As for monsters: Slightly increasing the time between spawns should not impact spawn rates even in mob farms. In most cases all of the values under this option should be higher than `1`. Setting this higher also allows your server to better cope with areas where mob spawning is disabled.
+Esta opción establece la frecuencia (en ticks) con la que el servidor intenta desovar ciertas entidades vivas. Los mobs de agua/ambiente no necesitan aparecer cada tick ya que no suelen morir tan rápido. En cuanto a los monstruos: Aumentar ligeramente el tiempo entre desovaciones no debería afectar a la tasa de desovaciones incluso en granjas de monstruos. En la mayoría de los casos todos los valores de esta opción deberían ser superiores a "1". Establecer este valor más alto también permite a su servidor para hacer frente mejor a las zonas donde el desove mob está desactivado.
 
 ### [spigot.yml]
 
 #### mob-spawn-range
 
-`Good starting value: 3`
+`Buen valor inicial: 3`
 
-Allows you to reduce the range (in chunks) of where mobs will spawn around the player. Depending on your server's gamemode and its playercount you might want to reduce this value along with [bukkit.yml]'s `spawn-limits`. Setting this lower will make it feel as if there are more mobs around you. This should be lower than or equal to your simulation distance, and never larger than your hard despawn range / 16.
+Te permite reducir el rango (en trozos) de donde aparecerán los mobs alrededor del jugador. Dependiendo del modo de juego de tu servidor y de su número de jugadores, puede que quieras reducir este valor junto con `spawn-limits` de [bukkit.yml]. Establecer este valor más bajo hará que parezca que hay más mobs a tu alrededor. Este valor debería ser menor o igual que la distancia de simulación, y nunca mayor que el rango de despawn / 16.
 
 #### entity-activation-range
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
       animals: 16
       monsters: 24
@@ -204,12 +204,12 @@ Good starting values:
       flying-monsters: 48
 ```
 
-You can set what distance from the player an entity should be for it to tick (do stuff). Reducing those values helps performance, but may result in irresponsive mobs until the player gets really close to them. Lowering this too far can break certain mob farms; iron farms being the most common victim.
+Puedes establecer a qué distancia del jugador debe estar una entidad para que haga tick (hacer cosas). La reducción de estos valores ayuda al rendimiento, pero puede dar lugar a turbas irresponsables hasta que el jugador se acerca mucho a ellos. Reducir demasiado este valor puede romper ciertas granjas de mobs; las granjas de hierro son la víctima más común.
 
 #### entity-tracking-range
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
       players: 48
       animals: 48
@@ -218,26 +218,26 @@ Good starting values:
       other: 64
 ```
 
-This is distance in blocks from which entities will be visible. They just won't be sent to players. If set too low this can cause mobs to seem to appear out of nowhere near a player. In the majority of cases this should be higher than your `entity-activation-range`.
+Esta es la distancia en bloques a partir de la cual las entidades serán visibles. Simplemente no serán enviadas a los jugadores. Si se establece demasiado bajo, puede provocar que las criaturas aparezcan de la nada cerca de un jugador. En la mayoría de los casos debería ser mayor que el "rango de activación de entidades".
 
 #### tick-inactive-villagers
 
-`Good starting value: false`
+`Buenos valores iniciales: false`
 
-This allows you to control whether villagers should be ticked outside of the activation range. This will make villagers proceed as normal and ignore the activation range. Disabling this will help performance, but might be confusing for players in certain situations. This may cause issues with iron farms and trade restocking.
+Esto te permite controlar si los aldeanos deben ser marcados fuera del rango de activación. Esto hará que los aldeanos procedan de forma normal e ignoren el rango de activación. Desactivar esta opción mejorará el rendimiento, pero puede resultar confuso para los jugadores en determinadas situaciones. Esto puede causar problemas con las granjas de hierro y el reabastecimiento del comercio.
 
 #### nerf-spawner-mobs
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-You can make mobs spawned by a monster spawner have no AI. Nerfed mobs will do nothing. You can make them jump while in water by changing `spawner-nerfed-mobs-should-jump` to `true` in [paper-world configuration].
+Puedes hacer que los monstruos generados por un generador de monstruos no tengan IA. Los monstruos nerfeados no harán nada. Puedes hacer que salten mientras están en el agua cambiando `spawner-nerfed-mobs-should-jump` a `true` en [paper-world configuration].
 
 ### [paper-world configuration]
 
 #### despawn-ranges
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
       ambient:
         hard: 56
@@ -265,48 +265,48 @@ Good starting values:
         soft: 30
 ```
 
-Lets you adjust entity despawn ranges (in blocks). Lower those values to clear the mobs that are far away from the player faster. You should keep soft range around `30` and adjust hard range to a bit more than your actual simulation-distance, so mobs don't immediately despawn when the player goes just beyond the point of a chunk being loaded (this works well because of `delay-chunk-unloads-by` in [paper-world configuration]). When a mob is out of the hard range, it will be instantly despawned. When between the soft and hard range, it will have a random chance of despawning. Your hard range should be larger than your soft range. You should adjust this according to your view distance using `(simulation-distance * 16) + 8`. This partially accounts for chunks that haven't been unloaded yet after player visited them.
+Te permite ajustar los rangos de despawn de las entidades (en bloques). Baja esos valores para eliminar más rápido a las criaturas que están lejos del jugador. Deberías mantener el rango suave alrededor de `30` y ajustar el rango duro a un poco más que tu distancia de simulación real, para que los mobs no desaparezcan inmediatamente cuando el jugador va justo más allá del punto en el que un chunk está siendo cargado (esto funciona bien debido a `delay-chunk-unloads-by` en [paper-world configuration]). Cuando un mob está fuera del rango duro, será despawneado instantáneamente. Cuando esté entre el rango suave y el duro, tendrá una probabilidad aleatoria de despawn. Tu rango duro debe ser mayor que tu rango blando. Deberías ajustar esto de acuerdo a tu distancia de visión usando `(simulation-distance * 16) + 8`. Esto tiene en cuenta parcialmente los trozos que aún no se han descargado después de que el jugador los haya visitado.
 
 #### per-player-mob-spawns
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-This option decides if mob spawns should account for how many mobs are around target player already. You can bypass a lot of issues regarding mob spawns being inconsistent due to players creating farms that take up the entire mobcap. This will enable a more singleplayer-like spawning experience, allowing you to set lower `spawn-limits`. Enabling this does come with a very slight performance impact, however it's impact is overshadowed by the improvements in `spawn-limits` it allows.
+Esta opción decide si la aparición de mobs debe tener en cuenta cuántos mobs hay ya alrededor del jugador objetivo. Puedes evitar muchos problemas de inconsistencia en la aparición de mobs debido a que los jugadores crean granjas que ocupan todo el mobcap. Esto permitirá una experiencia de desove más parecida a la de un jugador, permitiéndote establecer `límites de desove` más bajos. La activación de esta opción tiene un ligero impacto en el rendimiento, pero queda eclipsado por las mejoras en los "límites de aparición" que permite.
 
 #### max-entity-collisions
 
-`Good starting value: 2`
+`Buenos valores iniciales: 2`
 
-Overwrites option with the same name in [spigot.yml]. It lets you decide how many collisions one entity can process at once. Value of `0` will cause inability to push other entities, including players. Value of `2` should be enough in most cases. It's worth noting that this will render maxEntityCramming gamerule useless if its value is over the value of this config option.
+Sobrescribe la opción con el mismo nombre en [spigot.yml]. Permite decidir cuántas colisiones puede procesar una entidad a la vez. Un valor de `0` causará la incapacidad de empujar a otras entidades, incluyendo jugadores. Un valor de `2` debería ser suficiente en la mayoría de los casos. Vale la pena señalar que esto hará maxEntityCramming gamerule inútil si su valor es superior al valor de esta opción de configuración.
 
 #### update-pathfinding-on-block-update
 
-`Good starting value: false`
+`Buen valor inicial: false`
 
-Disabling this will result in less pathfinding being done, increasing performance. In some cases this will cause mobs to appear more laggy; They will just passively update their path every 5 ticks (0.25 sec).
+Al desactivar esta opción, se hará menos pathfinding, lo que aumentará el rendimiento. En algunos casos, esto hará que los mobs parezcan más lentos; simplemente actualizarán pasivamente su ruta cada 5 ticks (0.25 seg).
 
 #### fix-climbing-bypassing-cramming-rule
 
-`Good starting value: true`
+`Buenos valores iniciales: true`
 
-Enabling this will fix entities not being affected by cramming while climbing. This will prevent absurd amounts of mobs being stacked in small spaces even if they're climbing (spiders).
+Al activar esta opción, las entidades no se verán afectadas por el apilamiento al escalar. Esto evitará que se apilen cantidades absurdas de mobs en espacios pequeños aunque estén trepando (arañas).
 
 #### armor-stands.tick
 
-`Good starting value: false`
+`Buenos valores iniciales: false`
 
-In most cases you can safely set this to `false`. If you're using armor stands or any plugins that modify their behavior and you experience issues, re-enable it. This will prevent armor stands from being pushed by water or being affected by gravity.
+En la mayoría de los casos se puede establecer con seguridad a `false`. Si estás usando soportes de armadura o cualquier plugin que modifique su comportamiento y experimentas problemas, vuelve a activarlo. Esto evitará que los soportes de armadura sean empujados por el agua o se vean afectados por la gravedad.
 
 #### armor-stands.do-collision-entity-lookups
 
-`Good starting value: false`
+`Buen valor inicial: false`
 
-Here you can disable armor stand collisions. This will help if you have a lot of armor stands and don't need them colliding with anything.
+Aquí puedes desactivar las colisiones de los soportes de armadura. Esto te ayudará si tienes muchos puestos de armadura y no necesitas que colisionen con nada.
 
 #### tick-rates
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
   behavior:
     villager:
@@ -321,69 +321,69 @@ Good starting values:
       nearestlivingentitysensor: 40
 ```
 
-> It is not recommended to change these values from their defaults while [Pufferfish's DAB](#dabenabled) is enabled!
+> No se recomienda cambiar estos valores por defecto mientras [DAB de Pufferfish](#dabenabled) esté activado.
 
-This decides how often specified behaviors and sensors are being fired in ticks. `acquirepoi` for villagers seems to be the heaviest behavior, so it's been greately increased. Decrease it in case of issues with villagers finding their way around.
+Esto decide la frecuencia con la que se disparan los comportamientos y sensores especificados en ticks. `acquirepoi` para los aldeanos parece ser el comportamiento más pesado, por lo que se ha aumentado mucho. Disminuirlo en caso de problemas con los aldeanos encontrar su camino alrededor.
 
 ### [pufferfish.yml]
 
 #### dab.enabled
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-DAB (dynamic activation of brain) reduces the amount an entity is ticked the further away it is from players. DAB works on a gradient instead of a hard cutoff like EAR. Instead of fully ticking close entities and barely ticking far entities, DAB will reduce the amount an entity is ticked based on the result of a calculation influenced by [dab.activation-dist-mod](#dabactivation-dist-mod).
+DAB (activación dinámica del cerebro) reduce la cantidad que se marca una entidad cuanto más lejos está de los jugadores. DAB funciona en un gradiente en lugar de un corte duro como EAR. En lugar de marcar completamente las entidades cercanas y apenas marcar las entidades lejanas, DAB reducirá la cantidad de marcación de una entidad basándose en el resultado de un cálculo influenciado por [dab.activation-dist-mod](#dabactivation-dist-mod).
 
 #### dab.max-tick-freq
 
-`Good starting value: 20`
+`Buen valor inicial: 20`
 
-Defines the slowest amount entities farthest from players will be ticked. Increasing this value may improve the performance of entities far from view but may break farms or greatly nerf mob behavior. If enabling DAB breaks mob farms, try decreasing this value.
+Define la cantidad más lenta a la que se moverán las entidades más alejadas de los jugadores. El aumento de este valor puede mejorar el rendimiento de las entidades lejos de la vista, pero puede romper las granjas o nerf en gran medida el comportamiento mafia. Si al activar DAB se rompen las granjas, prueba a reducir este valor.
 
 #### dab.activation-dist-mod
 
-`Good starting value: 7`
+`Buen valor inicial: 7`
 
-Controls the gradient in which mobs are ticked. Decreasing this will activate DAB closer to players, improving DAB's performance gains, but will affect how entities interact with their surroundings and may break mob farms. If enabling DAB breaks mob farms, try increasing this value.
+Controla el gradiente en el que se marcan los mobs. Disminuir este valor activará DAB más cerca de los jugadores, mejorando las ganancias de rendimiento de DAB, pero afectará a cómo las entidades interactúan con su entorno y puede romper las granjas de turbas. Si al activar DAB se rompen las granjas de mobs, prueba a aumentar este valor.
 
 #### enable-async-mob-spawning
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-If asynchronous mob spawning should be enabled. For this to work, the Paper's per-player-mob-spawns setting must be enabled. This option does not actually spawn mobs asynchronous, but does offload much of the computational effort involved with spawning new mobs to a different thread. Enabling this option should not be noticeable on vanilla gameplay.
+Si se debe habilitar el desove asíncrono de mobs. Para que esto funcione, el ajuste de Paper per-player-mob-spawns debe estar habilitado. Esta opción no genera realmente mobs de forma asíncrona, pero descarga gran parte del esfuerzo computacional involucrado en la generación de nuevos mobs a un hilo diferente. Activar esta opción no debería afectar al juego.
 
 #### enable-suffocation-optimization
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-This option optimises a suffocation check (the check to see if a mob is inside a block and if they should take suffocation damage), by rate limiting the check to the damage timeout. This optimisation should be impossible to notice unless you're an extremely technical player who's using tick-precise timing to kill an entity at exactly the right time by suffocation.
+Esta opción optimiza la comprobación de asfixia (la comprobación para ver si un monstruo está dentro de un bloque y si debería recibir daño por asfixia), limitando la tasa de comprobación al tiempo de espera del daño. Esta optimización debería ser imposible de notar, a menos que seas un jugador extremadamente técnico que esté utilizando una sincronización precisa de ticks para matar a una entidad por asfixia en el momento exacto.
 
 #### inactive-goal-selector-throttle
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-Throttles the AI goal selector in entity inactive ticks, causing the inactive entities to update their goal selector every 20 ticks instead of every tick. Can improve performance by a few percent, and has minor gameplay implications.
+Acelera el selector de objetivos de la IA en los ticks de entidades inactivas, haciendo que las entidades inactivas actualicen su selector de objetivos cada 20 ticks en lugar de cada ticks. Puede mejorar el rendimiento en un pequeño porcentaje y tiene implicaciones menores en la jugabilidad.
 
 ### [purpur.yml]
 
 #### zombie.aggressive-towards-villager-when-lagging
 
-`Good starting value: false`
+`Buen valor inicial: false`
 
-Enabling this will cause zombies to stop targeting villagers if the server is below the tps threshold set with `lagging-threshold` in [purpur.yml].
+Activar esta opción hará que los zombis dejen de apuntar a los aldeanos si el servidor está por debajo del umbral de tps establecido con `lagging-threshold` en [purpur.yml].
 
 #### entities-can-use-portals
 
-`Good starting value: false`
+`Buen valor inicial: false`
 
-This option can disable portal usage of all entities besides the player. This prevents entities from loading chunks by changing worlds which is handled on the main thread. This has the side effect of entities not being able to go through portals.
+Esta opción puede deshabilitar el uso del portal de todas las entidades además del jugador. Esto evita que las entidades carguen trozos cambiando mundos, lo que se gestiona en el hilo principal. Esto tiene el efecto secundario de que las entidades no pueden atravesar portales.
 
 #### villager.lobotomize.enabled
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-> This should only be enabled if villagers are causing lag! Otherwise, the pathfinding checks may decrease performance.
+> Esta opción sólo debe activarse si los aldeanos causan lag. De lo contrario, las comprobaciones de búsqueda de rutas pueden reducir el rendimiento.
 
-Lobotomized villagers are stripped from their AI and only restock their offers every so often. Enabling this will lobotomize villagers that are unable to pathfind to their destination. Freeing them should unlobotomize them.
+Los aldeanos lobotomizados son despojados de su IA y solo reponen sus ofertas cada cierto tiempo. Si activas esta opción, los aldeanos lobotomizados que no puedan encontrar su camino llegarán a su destino. Si los liberas, los deslobotomizarás.
 
 ---
 
@@ -394,32 +394,32 @@ Lobotomized villagers are stripped from their AI and only restock their offers e
 #### merge-radius
 
 ```
-Good starting values:
+Buenos valores iniciales:
 
       item: 3.5
       exp: 4.0
 ```
 
-This decides the distance between the items and exp orbs to be merged, reducing the amount of items ticking on the ground. Setting this too high will lead to the illusion of items or exp orbs disappearing as they merge together. Setting this too high will break some farms, as well as allow items to teleport through blocks. There are no checks done to prevent items from merging through walls. Exp is only merged on creation.
+Esto decide la distancia entre los items y orbes de exp a fusionar, reduciendo la cantidad de items tickeando en el suelo. Un valor demasiado alto hará que la ilusión de objetos u orbes de exp desaparezcan al fusionarse. Un valor demasiado alto romperá algunas granjas y permitirá que los objetos se teletransporten a través de los bloques. No se realizan comprobaciones para evitar que los objetos se fusionen a través de las paredes. La Exp sólo se fusiona en el momento de la creación.
 
 #### hopper-transfer
 
-`Good starting value: 8`
+`Buen valor inicial: 8`
 
-Time in ticks that hoppers will wait to move an item. Increasing this will help improve performance if there are a lot of hoppers on your server, but will break hopper-based clocks and possibly item sorting systems if set too high.
+Tiempo en [ticks] (https://ticks.tect.host/) que las tolvas esperarán para mover un artículo. Aumentar esto ayudará a mejorar el rendimiento si hay muchas tolvas en tu servidor, pero romperá los relojes basados en tolvas y posiblemente los sistemas de clasificación de artículos si se establece demasiado alto.
 
 #### hopper-check
 
-`Good starting value: 8`
+`Buen valor inicial: 8`
 
-Time in ticks between hoppers checking for an item above them or in the inventory above them. Increasing this will help performance if there are a lot of hoppers on your server, but will break hopper-based clocks and item sorting systems relying on water streams.
+Tiempo en ticks entre que las tolvas comprueban si hay un objeto sobre ellas o en el inventario sobre ellas. Aumentar este valor mejorará el rendimiento si hay muchas tolvas en el servidor, pero estropeará los relojes basados en tolvas y los sistemas de clasificación de artículos basados en flujos de agua.
 
 ### [paper-world configuration]
 
 #### alt-item-despawn-rate
 
 ```
-Good starting values:
+Buenos valores de partida:
 
       enabled: true
       items:
@@ -451,101 +451,101 @@ Good starting values:
         scaffolding: 600
 ```
 
-This list lets you set alternative time (in ticks) to despawn certain types of dropped items faster or slower than default. This option can be used instead of item clearing plugins along with `merge-radius` to improve performance.
+Esta lista te permite establecer un tiempo alternativo (en ticks) para que ciertos tipos de objetos caídos desaparezcan más rápido o más lento que por defecto. Esta opción se puede utilizar en lugar de los plugins de limpieza de elementos junto con `merge-radius` para mejorar el rendimiento.
 
 #### redstone-implementation
 
-`Good starting value: ALTERNATE_CURRENT`
+`Buen valor inicial: ALTERNATE_CURRENT`
 
-Replaces the redstone system with faster and alternative versions that reduce redundant block updates, lowering the amount of logic your server has to calculate. Using a non-vanilla implementation may introduce minor inconsistencies with very technical redstone, but the performance gains far outweigh the possible niche issues. A non-vanilla implementation option may additionally fix other redstone inconsistencies caused by CraftBukkit.
+Sustituye el sistema de redstone por versiones más rápidas y alternativas que reducen las actualizaciones redundantes de bloques, reduciendo la cantidad de lógica que tiene que calcular tu servidor. El uso de una implementación no vainilla puede introducir inconsistencias menores con redstone muy técnico, pero las ganancias de rendimiento superan con creces los posibles problemas de nicho. Una opción de implementación no vainilla puede solucionar además otras incoherencias de redstone causadas por CraftBukkit.
 
-The `ALTERNATE_CURRENT` implementation is based off of the [Alternate Current](https://modrinth.com/mod/alternate-current) mod. More information on this algorithm can be found on their resource page.
+La implementación de `ALTERNATE_CURRENT` se basa en el mod [Alternate Current](https://modrinth.com/mod/alternate-current). Puedes encontrar más información sobre este algoritmo en su página de recursos.
 
 #### hopper.disable-move-event
 
-`Good starting value: false`
+`Buen valor inicial: false`
 
-`InventoryMoveItemEvent` doesn't fire unless there is a plugin actively listening to that event. This means that you only should set this to true if you have such plugin(s) and don't care about them not being able to act on this event. **Do not set to true if you want to use plugins that listen to this event, e.g. protection plugins!**
+El evento `InventoryMoveItemEvent` no se dispara a menos que haya un plugin escuchando activamente ese evento. Esto significa que sólo debes ponerlo a true si tienes tal(es) plugin(s) y no te importa que no puedan actuar sobre este evento. **No lo establezca a true si quiere usar plugins que escuchen este evento, por ejemplo, plugins de protección.
 
 #### hopper.ignore-occluding-blocks
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-Determines if hoppers will ignore containers inside full blocks, for example hopper minecart inside sand or gravel block. Keeping this enabled will break some contraptions depending on that behavior.
+Determina si las tolvas ignorarán los contenedores dentro de bloques llenos, por ejemplo la tolva minecart dentro de un bloque de arena o grava. Si se mantiene activada esta opción, se romperán algunos artilugios que dependen de ese comportamiento.
 
 #### tick-rates.mob-spawner
 
-`Good starting value: 2`
+`Buen valor inicial: 2`
 
-This option lets you configure how often spawners should be ticked. Higher values mean less lag if you have a lot of spawners, although if set too high (relative to your spawners delay) mob spawn rates will decrease.
+Esta opción te permite configurar la frecuencia con la que deben marcarse los generadores. Valores más altos significan menos lag si tienes muchos spawners, aunque si se establece demasiado alto (en relación con el retraso de tus spawners) las tasas de spawn de mobs disminuirán.
 
 #### optimize-explosions
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-Setting this to `true` replaces the vanilla explosion algorithm with a faster one, at a cost of slight inaccuracy when calculating explosion damage. This is usually not noticeable.
+Establecer esto a `true` reemplaza el algoritmo de explosión vainilla por uno más rápido, a costa de una ligera inexactitud al calcular el daño de la explosión. Esto no suele ser perceptible.
 
 #### treasure-maps.enabled
 
-`Good starting value: false`
+`Buen valor inicial: false`
 
-Generating treasure maps is extremely expensive and can hang a server if the structure it's trying to locate is in an ungenerated chunk. It's only safe to enable this if you pregenerated your world and set a vanilla world border.
+Generar mapas del tesoro es extremadamente caro y puede colgar un servidor si la estructura que está intentando localizar está en un trozo no generado. Sólo es seguro activar esto si has pregenerado tu mundo y establecido un borde de mundo vainilla.
 
 #### treasure-maps.find-already-discovered
 
 ```
-Good starting values:
+Buenos valores de partida:
       loot-tables: true
       villager-trade: true
 ```
 
-Default value of this option forces the newly generated maps to look for unexplored structure, which are usually in not yet generated chunks. Setting this to true makes it so maps can lead to the structures that were discovered earlier. If you don't change this to `true` you may experience the server hanging or crashing when generating new treasure maps. `villager-trade` is for maps traded by villagers and loot-tables refers to anything that generates loot dynamically like treasure chests, dungeon chests, etc.
+El valor por defecto de esta opción obliga a los mapas recién generados a buscar estructuras inexploradas, que suelen estar en trozos aún no generados. Establecer esto a `true` hace que los mapas puedan llevar a las estructuras que fueron descubiertas anteriormente. Si no cambias esto a `true` puedes experimentar que el servidor se cuelgue o se cuelgue al generar nuevos mapas del tesoro. villager-trade" es para mapas comerciados por aldeanos y "loot-tables" se refiere a cualquier cosa que genere botín dinámicamente como cofres del tesoro, cofres de mazmorras, etc.
 
 #### tick-rates.grass-spread
 
-`Good starting value: 4`
+`Buen valor inicial: 4`
 
-Time in ticks between the server trying to spread grass or mycelium. This will make it so large areas of dirt will take a little longer to turn to grass or mycelium. Setting this to around `4` should work nicely if you want to decrease it without the decreased spread rate being noticeable.
+Tiempo en ticks entre que el servidor intenta esparcir hierba o micelio. Esto hará que las grandes áreas de tierra tarden un poco más en convertirse en hierba o micelio. Establecerlo en torno a `4` debería funcionar bien si quieres reducirlo sin que se note la disminución de la velocidad de propagación.
 
 #### tick-rates.container-update
 
-`Good starting value: 1`
+`Buen valor inicial: 1`
 
-Time in ticks between container updates. Increasing this might help if container updates cause issues for you (it rarely happens), but makes it easier for players to experience desync when interacting with inventories (ghost items).
+Tiempo en ticks entre actualizaciones de contenedores. Aumentarlo puede ayudar si las actualizaciones de los contenedores te causan problemas (rara vez ocurre), pero facilita que los jugadores experimenten desincronización al interactuar con los inventarios (objetos fantasma).
 
 #### non-player-arrow-despawn-rate
 
-`Good starting value: 20`
+`Buen valor inicial: 20`
 
-Time in ticks after which arrows shot by mobs should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
+Tiempo en ticks después del cual las flechas disparadas por los mobs deberían desaparecer después de golpear algo. De todas formas, los jugadores no pueden recogerlas, así que también puedes establecerlo en algo como `20` (1 segundo).
 
 #### creative-arrow-despawn-rate
 
-`Good starting value: 20`
+`Buen valor inicial: 20`
 
-Time in ticks after which arrows shot by players in creative mode should disappear after hitting something. Players can't pick these up anyway, so you may as well set this to something like `20` (1 second).
+Tiempo en ticks tras el cual las flechas disparadas por los jugadores en modo creativo deberían desaparecer después de golpear algo. De todas formas, los jugadores no pueden recogerlas, así que también puedes establecerlo en algo como `20` (1 segundo).
 
 ### [pufferfish.yml]
 
 #### disable-method-profiler
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-This option will disable some additional profiling done by the game. This profiling is not necessary to run in production and can cause additional lag.
+Esta opción desactivará algunos perfiles adicionales realizados por el juego. Este perfilado no es necesario para funcionar en producción y puede causar retrasos adicionales..
 
 ### [purpur.yml]
 
 #### dolphin.disable-treasure-searching
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-Prevents dolphins from performing structure search similar to treasure maps
+Evita que los delfines realicen búsquedas de estructuras similares a los mapas del tesoro
 
 #### teleport-if-outside-border
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-Allows you to teleport the player to the world spawn if they happen to be outside of the world border. Helpful since the vanilla world border is bypassable and the damage it does to the player can be mitigated.
+Te permite teletransportar al jugador al spawn del mundo si se encuentra fuera de la frontera del mundo. Resulta útil, ya que la frontera del mundo de vainilla se puede evitar y el daño que causa al jugador se puede mitigar.
 
 ---
 
@@ -555,49 +555,49 @@ Allows you to teleport the player to the world spawn if they happen to be outsid
 
 #### anti-xray.enabled
 
-`Good starting value: true`
+`Buen valor inicial: true`
 
-Enable this to hide ores from x-rayers. For detailed configuration of this feature check out [Configuring Anti-Xray](https://docs.papermc.io/paper/anti-xray). Enabling this will actually decrease performance, however it is much more efficient than any anti-xray plugin. In most cases the performance impact will be negligible.
+Activa esta opción para ocultar los minerales de los rayos X. Para una configuración detallada de esta función, consulte [Configuring Anti-Xray](https://docs.papermc.io/paper/anti-xray). Activar esta opción disminuirá el rendimiento, sin embargo es mucho más eficiente que cualquier plugin anti-xray. En la mayoría de los casos el impacto en el rendimiento será insignificante.
 
 #### nether-ceiling-void-damage-height
 
-`Good starting value: 127`
+`Buen valor inicial: 127`
 
-If this option is greater that `0`, players above the set y level will be damaged as if they were in the void. This will prevent players from using the nether roof. Vanilla nether is 128 blocks tall, so you should probably set it to `127`. If you modify the height of the nether in any way you should set this to `[your_nether_height] - 1`.
+Si esta opción es mayor que `0`, los jugadores por encima del nivel y establecido sufrirán daños como si estuvieran en el vacío. Esto evitará que los jugadores utilicen el techo del Nether. El nether vainilla tiene una altura de 128 bloques, por lo que probablemente deberías establecerlo en `127`. Si modificas la altura del nether de alguna manera, deberías establecerla en `[your_nether_height] - 1`.
 
 ---
 
 # Java startup flags
-[Vanilla Minecraft and Minecraft server software in version 1.19 requires Java 17 or higher](https://docs.papermc.io/java-install-update). Oracle has changed their licensing, and there is no longer a compelling reason to get your java from them. Recommended vendors are [Adoptium](https://adoptium.net/) and [Amazon Corretto](https://aws.amazon.com/corretto/). Alternative JVM implementations such as OpenJ9 or GraalVM can work, however they are not supported by Paper and have been known to cause issues, therefore they are not currently recommended.
+[Vanilla Minecraft y Minecraft software de servidor en la versión 1.19 requiere Java 17 o superior](https://docs.papermc.io/java-install-update). Oracle ha cambiado su concesión de licencias, y ya no hay una razón de peso para obtener su Java de ellos. Los proveedores recomendados son [Adoptium](https://adoptium.net/) y [Amazon Corretto](https://aws.amazon.com/corretto/). Implementaciones alternativas de JVM como OpenJ9 o GraalVM pueden funcionar, sin embargo no están soportadas por Paper y se sabe que causan problemas, por lo que no se recomiendan actualmente.
 
-Your garbage collector can be configured to reduce lag spikes caused by big garbage collector tasks. You can find startup flags optimized for Minecraft servers [here](https://docs.papermc.io/paper/aikars-flags) [`SOG`]. Keep in mind that this recommendation will not work on alternative JVM implementations.
-It's recommended to use the [flags.sh](https://docs.papermc.io/paper/aikars-flags) startup flags generator to get the correct startup flags for your server
+Tu recolector de basura puede ser configurado para reducir los picos de lag causados por grandes tareas del recolector de basura. Puedes encontrar banderas de inicio optimizadas para servidores Minecraft [aquí](https://docs.papermc.io/paper/aikars-flags) [`SOG`]. Ten en cuenta que esta recomendación no funcionará en implementaciones JVM alternativas.
+Se recomienda utilizar el generador de banderas de inicio [flags.sh](https://docs.papermc.io/paper/aikars-flags) para obtener las banderas de inicio correctas para tu servidor.
 
-In addition, adding the beta flag `--add-modules=jdk.incubator.vector` before `-jar` in your startup flags can improve performance. This flag enables Pufferfish to use SIMD instructions on your CPU, making some maths faster. Currently, it's only used for making rendering in game plugin maps (like imageonmaps) possibly 8 times faster.
+Además, añadir la bandera beta `--add-modules=jdk.incubator.vector` antes de `-jar` en tus banderas de inicio puede mejorar el rendimiento. Esta bandera permite a Pufferfish utilizar instrucciones SIMD en tu CPU, haciendo algunas matemáticas más rápidas. Actualmente, sólo se utiliza para hacer el renderizado en mapas de plugins de juegos (como imageonmaps) posiblemente 8 veces más rápido.
 
-# "Too good to be true" plugins
+# Plugins "demasiado bueno para ser verdad"
 
-## Plugins removing ground items
-Absolutely unnecessary since they can be replaced with [merge-radius](#merge-radius) and [alt-item-despawn-rate](#alt-item-despawn-rate) and frankly, they're less configurable than basic server configs. They tend to use more resources scanning and removing items than not removing the items at all.
+## Plugins que eliminan items del suelo
+Absolutamente innecesarios ya que pueden ser reemplazados con [merge-radius](#merge-radius) y [alt-item-despawn-rate](#alt-item-despawn-rate) y francamente, son menos configurables que las configuraciones básicas del servidor. Tienden a utilizar más recursos escaneando y eliminando elementos que no eliminándolos en absoluto.
 
-## Mob stacker plugins
-It's really hard to justify using one. Stacking naturally spawned entities causes more lag than not stacking them at all due to the server constantly trying to spawn more mobs. The only "acceptable" use case is for spawners on servers with a large amount of spawners.
+## Plugins Mob stacker
+Es realmente difícil justificar el uso de uno. Apilar entidades generadas de forma natural causa más lag que no apilarlas debido a que el servidor está constantemente intentando generar más mobs. El único caso de uso "aceptable" es para los spawners en servidores con una gran cantidad de spawners.
 
-## Plugins enabling/disabling other plugins
-Anything that enables or disables plugins on runtime is extremely dangerous. Loading a plugin like that can cause fatal errors with tracking data and disabling a plugin can lead to errors due to removing dependency. The `/reload` command suffers from exact same issues and you can read more about them in [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
+## Plugins que activan/desactivan otros plugins
+Cualquier cosa que habilite o deshabilite plugins en tiempo de ejecución es extremadamente peligrosa. Cargar un plugin así puede causar errores fatales con los datos de rastreo y deshabilitar un plugin puede llevar a errores debido a la eliminación de la dependencia. El comando `/reload` sufre exactamente los mismos problemas y puedes leer más sobre ellos en [me4502's blog post](https://madelinemiller.dev/blog/problem-with-reload/)
 
-# What's lagging? - measuring performance
+# ¿Qué se retrasa? - medir el rendimiento
 
 ## mspt
-Paper offers a `/mspt` command that will tell you how much time the server took to calculate recent ticks. If the first and second value you see are lower than 50, then congratulations! Your server is not lagging! If the third value is over 50 then it means there was at least 1 tick that took longer. That's completely normal and happens from time to time, so don't panic.
+Paper ofrece un comando `/mspt` que te dirá cuánto tiempo ha tardado el servidor en calcular los ticks recientes. Si el primer y segundo valor que ves son inferiores a 50, ¡enhorabuena! Su servidor no se está retrasando. Si el tercer valor es superior a 50, significa que ha habido al menos un tick que ha tardado más. Esto es completamente normal y ocurre de vez en cuando, así que no te asustes.
   
 ## Spark
-[Spark](https://spark.lucko.me/) is a plugin that allows you to profile your server's CPU and memory usage. You can read on how to use it [on its wiki](https://spark.lucko.me/docs/). There's also a guide on how to find the cause of lag spikes [here](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
+[Spark](https://spark.lucko.me/) es un plugin que te permite perfilar el uso de CPU y memoria de tu servidor. Puedes leer cómo usarlo [en su wiki](https://spark.lucko.me/docs/). También hay una guía sobre cómo encontrar la causa de los picos de lag [aquí](https://spark.lucko.me/docs/guides/Finding-lag-spikes).
 
 ## Timings
-Way to see what might be going on when your server is lagging are Timings. Timings is a tool that lets you see exactly what tasks are taking the longest. It's the most basic troubleshooting tool and if you ask for help regarding lag you will most likely be asked for your Timings. Timings is known to have a serious performance impact on servers, it's recommended to use the Spark plugin over Timings and use Purpur or Pufferfish to disable Timings all together.
+Una forma de ver lo que puede estar pasando cuando tu servidor se está retrasando es Timings. Timings es una herramienta que le permite ver exactamente qué tareas están tomando más tiempo. Es la herramienta más básica de solución de problemas y si usted pide ayuda con respecto a lag lo más probable es que se le preguntó por su Timings. Timings es conocido por tener un serio impacto en el rendimiento de los servidores, se recomienda utilizar el plugin Spark sobre Timings y utilizar Purpur o Pufferfish para desactivar Timings.
 
-To get Timings of your server, you just need to execute the `/timings paste` command and click the link you're provided with. You can share this link with other people to let them help you. It's also easy to misread if you don't know what you're doing. There is a detailed [video tutorial by Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) on how to read them.
+Para obtener Timings de tu servidor, sólo tienes que ejecutar el comando `/timings paste` y hacer clic en el enlace que se te proporciona. Puedes compartir este enlace con otras personas para que te ayuden. También es fácil equivocarse si no sabes lo que estás haciendo. Hay un [videotutorial de Aikar](https://www.youtube.com/watch?v=T4J0A9l7bfQ) detallado sobre cómo leerlos.
 
 [`SOG`]: https://www.spigotmc.org/threads/guide-server-optimization%E2%9A%A1.283181/
 [server.properties]: https://minecraft.fandom.com/wiki/Server.properties
@@ -608,3 +608,4 @@ To get Timings of your server, you just need to execute the `/timings paste` com
 [purpur.yml]: https://purpurmc.org/docs/Configuration/
 [pufferfish.yml]: https://docs.pufferfish.host/setup/pufferfish-fork-configuration/
 [Petal]: https://github.com/Bloom-host/Petal
+[Translation]: https://tect.host/
