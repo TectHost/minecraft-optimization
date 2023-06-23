@@ -1,8 +1,8 @@
-# Guía de optimización de servidores de Minecraft 1.19
+# Guía de optimización de servidores de Minecraft 1.20
 
 Nota para los usuarios que están en vanilla, Fabric o Spigot (o cualquier cosa por debajo de Paper) - vaya a su server.properties y cambie `sync-chunk-writes` a `false`. Esta opción está forzosamente en false en Paper y sus forks, pero en otras implementaciones de servidor necesitas cambiarla a false manualmente. Esto permite al servidor guardar trozos fuera del hilo principal, disminuyendo la carga en el bucle principal.
 
-Guía para la versión 1.19. Algunas cosas todavía se pueden aplicar a 1.15 - 1.18.
+Guía para la versión 1.20. Algunas cosas todavía se pueden aplicar a 1.15 - 1.18.
 
 (Traducción de https://github.com/YouHaveTrouble/minecraft-optimization)
 
